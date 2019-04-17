@@ -41,12 +41,20 @@ function mhm_memberpress_post_email_postmark_menu_setup() {
 		$license_key = get_option('mhm_memberpress_post_email_postmark_extention_license_key');
 		$product_id = get_option('mhm_memberpress_post_email_postmark_extention_product_id');
 		//$product_id = 'woocommerce-addon-retailer';
-		$verify = mhm_plugin_verify_account( $email, $license_key, $product_id ); 
+		
+		add_submenu_page( 'mhm-memberpress-post-email-postmark-setup', 'License', 'License',
+		'manage_options', 'mhm-memberpress-post-email-postmark-setup', 'mhm_memberpress_post_email_postmark_setup_callback');
 	
+		$verify = mhm_plugin_verify_account( $email, $license_key, $product_id ); 
+		
 		if ( isset($verify ) ) {
-			add_submenu_page( 'mhm-memberpress-post-email-postmark-setup', 'Postmark Credentials', 'Postmark Credentials',
-		'manage_options', 'mhm-memberpress-post-email-postmark-credentials-setup', 'mhm_memberpress_post_email_postmark_credentials_setup_callback');
+				if ( $verify == true ) {
+				add_submenu_page( 'mhm-memberpress-post-email-postmark-setup', 'Postmark Credentials', 'Postmark Credentials',
+			'manage_options', 'mhm-memberpress-post-email-postmark-credentials-setup', 'mhm_memberpress_post_email_postmark_credentials_setup_callback');
+				}
 		}
+		
+		
 		
 
 }
